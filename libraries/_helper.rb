@@ -434,7 +434,12 @@ EOH
           'Accept' => 'application/json'
         }
         http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true if uri.scheme == 'https'
+
+        if uri.scheme == 'https'
+          http.use_ssl = true
+          http.ca_file = 'c:\opscode\chef\embedded\ssl\certs\cacert.pem' # TODO
+        end
+
         response = http.post(uri.path, extracted_json, headers)
 
         true
