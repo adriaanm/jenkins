@@ -190,8 +190,10 @@ class Chef
     def remote_fs_dir_resource
       return @remote_fs_dir_resource if @remote_fs_dir_resource
       @remote_fs_dir_resource = Chef::Resource::Directory.new(new_resource.remote_fs, run_context)
-      @remote_fs_dir_resource.owner(new_resource.user)
-      @remote_fs_dir_resource.group(new_resource.group)
+      unless Chef::Platform.windows?
+        @remote_fs_dir_resource.owner(new_resource.user)
+        @remote_fs_dir_resource.group(new_resource.group)
+      end
       @remote_fs_dir_resource.recursive(true)
       @remote_fs_dir_resource
     end
