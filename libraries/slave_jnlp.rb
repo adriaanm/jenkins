@@ -42,6 +42,13 @@ class Chef
     attribute :service_name,
       kind_of: String,
       default: 'jenkins-slave'
+    # needed e.g., when running under a reverse proxy
+    attribute :tunnel,
+      kind_of: String,
+      default: nil
+    attribute :vmargs,
+      kind_of: String,
+      default: nil
   end
 end
 
@@ -83,7 +90,7 @@ class Chef
     # @see http://javadoc.jenkins-ci.org/hudson/slaves/JNLPLauncher.html
     #
     def launcher_groovy
-      'launcher = new hudson.slaves.JNLPLauncher()'
+      "launcher = new hudson.slaves.JNLPLauncher(#{convert_to_groovy(new_resource.tunnel)}, #{convert_to_groovy(new_resource.vmargs)})"
     end
 
     #
