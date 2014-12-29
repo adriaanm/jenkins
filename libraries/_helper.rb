@@ -24,6 +24,7 @@ require 'mixlib/shellout'
 require 'securerandom'
 require 'timeout'
 require 'uri'
+require 'json'
 
 module Jenkins
   module Helper
@@ -136,10 +137,7 @@ EOH
       when nil
         'null'
       when String
-        # This is ugly but it ensures any backslashes appear as
-        # double-backslashes in the resulting Groovy code.
-        val.gsub!(/\\/, '\\\\\\\\')
-        "'#{val}'"
+        val.to_json # happens to coincide with groovy's string escaping... (naive substitution of \ with \\ didn't work for me)
       when Array
         list_members = val.map do |v|
           convert_to_groovy(v)
