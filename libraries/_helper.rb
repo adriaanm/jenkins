@@ -241,7 +241,7 @@ EOH
     def private_key_given?
       # @todo remove in 3.0.0
       !node['jenkins']['executor']['private_key'].nil? ||
-        !node.run_state[:jenkins_private_key].nil?
+      !node.run_state[:jenkins_private_key].nil?
     end
 
     #
