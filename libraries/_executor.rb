@@ -51,6 +51,7 @@ module Jenkins
     def initialize(options = {})
       @options = {
         cli:     '/usr/share/jenkins/cli/java/cli.jar',
+        environment: {},
         java:    'java',
         timeout: 60,
       }.merge(options)
@@ -77,7 +78,7 @@ module Jenkins
       command.push(pieces)
 
       begin
-        cmd = Mixlib::ShellOut.new(command.join(' '), command_options.merge(timeout: options[:timeout]))
+        cmd = Mixlib::ShellOut.new(command.join(' '), command_options.merge(timeout: options[:timeout], environment: options[:environment]))
         cmd.run_command
         cmd.error!
         cmd.stdout.strip
