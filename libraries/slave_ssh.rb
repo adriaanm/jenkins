@@ -47,6 +47,15 @@ class Chef
       kind_of: String
     attribute :command_suffix,
       kind_of: String
+    attribute :launch_timeout_seconds,
+      kind_of: Integer,
+      default: 0
+    attribute :max_num_retries,
+      kind_of: Integer,
+      default: 0
+    attribute :retry_wait_time,
+      kind_of: Integer,
+      default: 0
 
     #
     # The credentials to SSH into the slave with. Credentials can be any
@@ -103,7 +112,10 @@ class Chef
             #{convert_to_groovy(new_resource.jvm_options)},
             null,
             #{convert_to_groovy(new_resource.command_prefix)},
-            #{convert_to_groovy(new_resource.command_suffix)}
+            #{convert_to_groovy(new_resource.command_suffix)},
+            #{convert_to_groovy(new_resource.launch_timeout_seconds)},
+            #{convert_to_groovy(new_resource.max_num_retries)},
+            #{convert_to_groovy(new_resource.retry_wait_time)}
           )
       EOH
     end
